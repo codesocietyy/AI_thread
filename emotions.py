@@ -14,7 +14,6 @@ def make_call(URL):
     }
 
     response = requests.post(face_api_url, params=params, headers=headers, json={"url": image_url})
-    #faces = response.json()
     jsonFaces = json.loads(response.text)
     return jsonFaces
 
