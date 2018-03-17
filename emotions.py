@@ -16,5 +16,9 @@ def make_call(URL):
     faces = response.json()
     return faces
 
+def processJson(jsonInput):
+    #assign score here
+    pass
+
 
 print(make_call("https://how-old.net/Images/faces2/main007.jpg"))
