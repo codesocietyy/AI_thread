@@ -1,4 +1,5 @@
 import requests
+import json
 
 def make_call(URL):
     subscription_key = "c695019b3cca4918b540fc688b7ec516"
@@ -13,12 +14,23 @@ def make_call(URL):
     }
 
     response = requests.post(face_api_url, params=params, headers=headers, json={"url": image_url})
-    faces = response.json()
-    return faces
+    #faces = response.json()
+    jsonFaces = json.loads(response.text)
+    return jsonFaces
 
 def processJson(jsonInput):
-    #assign score here
-    pass
+    emotions = jsonInput[0]['faceAttributes']['emotion']
+
+    anger = emotions['anger']
+    fear = emotions['fear']
+    contempt = emotions['contempt']
+    happiness = emotions['happiness']
+    surprise = emotions['surprise']
+    disgust = emotions['disgust']
+    sadness = emotions['sadness']
+    neutral = emotions['neutral']
+
+    return anger
 
 
-print(make_call("https://how-old.net/Images/faces2/main007.jpg"))
+print(processJson(make_call("https://how-old.net/Images/faces2/main007.jpg")))
