@@ -12,7 +12,7 @@ def getContext(URL):
     response.raise_for_status()
     analysis = response.json()
     image_caption = analysis["description"]["captions"][0]["text"].capitalize()
-    print(image_caption)
+    # print(image_caption)
     return analysis
 
 def tagList(jsonDict):
@@ -24,7 +24,20 @@ def threatLevel(tags):
     for i in myThreatDict:
         if i in tags:
             occurences = occurences + 1
-    return occurences
+    if occurences == 0:
+        return 0
+    elif 1 <= occurences <= 4:
+        if occurences == 1 and ('holding' in tags or 'fire' in tags):
+            return 0
+        else:
+            return 1
+    else:
+        return 0.3
 
-print(getContext("https://s3.amazonaws.com/extremekarate/wp-content/uploads/2015/09/24161936/street-fight3.jpg"))
-print(tagList(getContext("https://s3.amazonaws.com/extremekarate/wp-content/uploads/2015/09/24161936/street-fight3.jpg")))
+def object_analysis(url):
+    return threatLevel(tagList(getContext(url)))
+
+# print(getContext("https://s3.amazonaws.com/extremekarate/wp-content/uploads/2015/09/24161936/street-fight3.jpg"))
+# print(tagList(getContext("https://s3.amazonaws.com/extremekarate/wp-content/uploads/2015/09/24161936/street-fight3.jpg")))
+
+# print(main('https://how-old.net/Images/faces2/main007.jpg'))
